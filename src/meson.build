@@ -21,7 +21,8 @@ sources += [
 ]
 
 sources += [
-    'PhasespacePoint.cpp'
+    'PhasespacePoint.cpp',
+    'Integration.hpp'
 ]
 
 
@@ -37,5 +38,5 @@ executable(
    'ProHQinUPC',
    ['main.cpp'] + sources,
    include_directories : inc,
-   dependencies: [gsl_dep, rk_dep]
+   dependencies: [gsl_dep, dvegas_dep, rk_dep]
 )

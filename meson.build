@@ -23,7 +23,7 @@ gsl_dep = cpp.find_library('gsl')
 # HEP libraries
 #lhapdf_dep = dependency('lhapdf', version : '>=6')
 rk_dep = dependency('rk')
-#dvegas_dep = dependency('dvegas')
+dvegas_dep = dependency('dvegas')
 
 subdir('include')
 subdir('src')
