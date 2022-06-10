@@ -20,9 +20,9 @@ sources += [
     'ME/RQED.cpp',
 ]
 
-# sources += [
-#     'Pdf/PdfWrapper.cpp'
-# ]
+sources += [
+    'PhasespacePoint.cpp'
+]
 
 
 # build
@@ -37,5 +37,5 @@ executable(
    'ProHQinUPC',
    ['main.cpp'] + sources,
    include_directories : inc,
-   dependencies: []
+   dependencies: [gsl_dep, rk_dep]
 )

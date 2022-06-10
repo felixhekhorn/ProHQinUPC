@@ -9,7 +9,7 @@ project('ProHQinUPC',
 # mostly standard libraries
 # https://github.com/GStreamer/gstreamer/blob/master/meson.build
 cpp = meson.get_compiler('cpp')
-#gsl_dep = cpp.find_library('gsl')
+gsl_dep = cpp.find_library('gsl')
 #gslcblas_dep = cpp.find_library('gslcblas')
 #boost_dep = dependency('boost', modules : ['system', 'filesystem', 'python3'])
 #yaml_dep = dependency('yaml-cpp')
@@ -22,7 +22,7 @@ cpp = meson.get_compiler('cpp')
 
 # HEP libraries
 #lhapdf_dep = dependency('lhapdf', version : '>=6')
-#rk_dep = dependency('rk')
+rk_dep = dependency('rk')
 #dvegas_dep = dependency('dvegas')
 
 subdir('include')

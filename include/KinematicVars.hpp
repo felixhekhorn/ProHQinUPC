@@ -38,7 +38,10 @@ struct KinematicVars {
   KinematicVars(cdbl m2, cdbl s, cdbl x, cdbl y, cdbl Theta1, cdbl Theta2) {
     if (!std::isfinite(m2) || m2 <= 0.)
       throw std::domain_error("m2 has to be strictly positive!");
-    using std::max, std::min, std::cos, std::sin;
+    using std::cos;
+    using std::max;
+    using std::min;
+    using std::sin;
     this->s5 = max(s * x, 4. * m2);
     this->tp = -1. / 2. * s * (1. - x) * (1. + y);
     this->up = -1. / 2. * s * (1. - x) * (1. - y);

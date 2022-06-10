@@ -1,9 +1,8 @@
 #ifndef PROHQINUPC_INCLUDE_PHASESPACEPOINT_H_
 #define PROHQINUPC_INCLUDE_PHASESPACEPOINT_H_
 
-// #include <rk/rk.hh>
+#include <rk/rk.hh>
 
-#include "./KinematicVars.hpp"
 #include "./config.h"
 
 namespace ProHQinUPC {
@@ -60,22 +59,22 @@ class PhasespacePoint {
   /**
    * @brief incoming parton
    */
-  //    rk::P4 k1;
+  rk::P4 k1;
 
   /**
    * @brief incoming photon
    */
-  //    rk::P4 q;
+  rk::P4 q;
 
   /**
    * @brief outgoing heavy quark
    */
-  //    rk::P4 p1;
+  rk::P4 p1;
 
   /**
    * @brief outgoing heavy anti quark
    */
-  //    rk::P4 p2;
+  rk::P4 p2;
 
   /**
    * @brief shifts all vectors to the final (observatory-) frame
@@ -117,13 +116,13 @@ class PhasespacePoint {
    * @brief momentum of outgoing heavy quark
    * @return p1
    */
-  //    const rk::P4 getP1() const;
+  const rk::P4 getP1() const;
 
   /**
    * @brief momentum of outgoing heavy anti quark
    * @return p2
    */
-  //    const rk::P4 getP2() const;
+  const rk::P4 getP2() const;
 
   /**
    * @brief current hadronic S
