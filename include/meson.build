@@ -1,5 +1,3 @@
-
-
 inc = include_directories('.')
 
 # add includes
