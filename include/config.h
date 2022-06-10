@@ -6,12 +6,13 @@
 #ifndef Config_H_
 #define Config_H_
 
-#include <stdlib.h>
-#include <cmath>
-#include <string>
-#include <stdexcept>
-#include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
+
+#include <cmath>
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
 using namespace std;
 using namespace ProHQinUPC;
@@ -39,6 +40,6 @@ typedef const dbl cdbl;
 cdbl dblNaN = nan("");
 ///@}
 
-}
+}  // namespace ProHQinUPC
 
-#endif // Config_H_
+#endif  // Config_H_
