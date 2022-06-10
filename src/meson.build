@@ -28,6 +28,9 @@ sources = []
 
 sources += [
     'ME/BQED.cpp',
+    'ME/A1.cpp',
+    'ME/A2.cpp',
+    'ME/A3.cpp',
 ]
 
 # sources += [
