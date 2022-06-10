@@ -1,6 +1,9 @@
 #include "../ME.h"
 
-cdbl ProHQinUPC::ME::A1(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
+namespace ProHQinUPC {
+namespace ME {
+
+cdbl A1(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
   DEF_u7 return (2 * Power(tp, 2) * (s + u1 + u7)) / (u1 * u7) -
       (4 * m2 * (s + u1 + u7) * Power(s * u7 + t1 * (u1 + u7), 2)) /
           (tp * Power(u1, 2) * Power(u7, 2)) -
@@ -15,3 +18,5 @@ cdbl ProHQinUPC::ME::A1(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
              2 * s * (2 * t1 + u1) - 2 * t1 * u7 + Power(u7, 2)))) /
           (Power(u1, 2) * Power(u7, 2));
 }
+}  // namespace ME
+}  // namespace ProHQinUPC

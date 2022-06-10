@@ -1,7 +1,9 @@
 #include "../ME.h"
 
-cdbl ProHQinUPC::ME::RQED(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
-  DEF_s5 DEF_s3 DEF_s4 DEF_u7 return tp * up *
+namespace ProHQinUPC {
+namespace ME {
+cdbl RQED(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
+  DEF_s5 DEF_s3 DEF_s4 DEF_u6 DEF_u7 return tp * up *
       (9 / s - (2 * m2) / Power(s3, 2) -
        (12 * Power(m2, 2)) / (s * Power(s3, 2)) + 5 / (2. * s3) -
        (3 * m2) / (2. * s * s3) - (2 * m2) / Power(s4, 2) -
@@ -799,3 +801,5 @@ cdbl ProHQinUPC::ME::RQED(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
        (3 * m2 * Power(up, 2)) / (2. * s * s3 * s4 * u7) +
        (m2 * Power(up, 2)) / (s3 * s4 * u1 * u7));
 }
+}  // namespace ME
+}  // namespace ProHQinUPC

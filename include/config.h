@@ -3,8 +3,8 @@
  * @brief includes all common header files and defines types and shortcuts
  */
 
-#ifndef Config_H_
-#define Config_H_
+#ifndef PROHQINUPC_INCLUDE_CONFIG_H_
+#define PROHQINUPC_INCLUDE_CONFIG_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,9 +13,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-
-using namespace std;
-using namespace ProHQinUPC;
 
 namespace ProHQinUPC {
 
@@ -29,7 +26,7 @@ typedef const uint cuint;
 typedef const int cint;
 
 /** @brief string shorthand */
-typedef string str;
+typedef std::string str;
 
 /** @brief defines floating point precision */
 typedef double dbl;
@@ -42,4 +39,4 @@ cdbl dblNaN = nan("");
 
 }  // namespace ProHQinUPC
 
-#endif  // Config_H_
+#endif  // PROHQINUPC_INCLUDE_CONFIG_H_

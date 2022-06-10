@@ -1,10 +1,11 @@
 #include <iomanip>
 #include <iostream>
 
-#include "ME.h"
-#include "config-buildtime.hpp"
+#include "./ME.h"
+#include "./config-buildtime.hpp"
 
-using namespace std;
+using ::std::cout;
+using ::std::endl;
 
 /**
  * @brief CLI entry point

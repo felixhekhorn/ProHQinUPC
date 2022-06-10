@@ -3,10 +3,10 @@
  * @brief defines color constants
  */
 
-#ifndef Color_HPP_
-#define Color_HPP_
+#ifndef PROHQINUPC_INCLUDE_COLOR_HPP_
+#define PROHQINUPC_INCLUDE_COLOR_HPP_
 
-#include "config.h"
+#include "./config.h"
 
 /** @brief [debug] flag to unset QED-like contributions */
 #define _fQED 1.
@@ -38,4 +38,4 @@ cdbl Kqph = 1. / (cdbl(NC));
 
 }  // namespace ProHQinUPC
 
-#endif  // Color_HPP_
+#endif  // PROHQINUPC_INCLUDE_COLOR_HPP_

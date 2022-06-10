@@ -1,7 +1,9 @@
 #include "../ME.h"
 
-cdbl ProHQinUPC::ME::ROK(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
-  DEF_s5 DEF_s3 DEF_s4 DEF_u7 return tp * up *
+namespace ProHQinUPC {
+namespace ME {
+cdbl ROK(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
+  DEF_s5 DEF_s3 DEF_s4 DEF_u6 DEF_u7 return tp * up *
       (-12 / s - 2 / s3 - (9 * m2) / (2. * s * s3) - 2 / s4 -
        (9 * m2) / (2. * s * s4) + (3 * m2) / (s3 * s4) -
        (12 * Power(m2, 2)) / (s * s3 * s4) + (3 * s3) / (4. * s * s4) +
@@ -1129,3 +1131,5 @@ cdbl ProHQinUPC::ME::ROK(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up) {
        (m2 * Power(up, 2)) / (2. * s4 * tp * u1 * u7) +
        (3 * m2 * u6 * Power(up, 2)) / (4. * s * s4 * t1 * tp * u7));
 }
+}  // namespace ME
+}  // namespace ProHQinUPC

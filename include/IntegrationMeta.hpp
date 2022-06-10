@@ -1,11 +1,12 @@
 /**
+ * @file IntegrationMeta.hpp
  * @brief defines meta classes for integration routines
  */
 
-#ifndef IntegrationMeta_H_
-#define IntegrationMeta_H_
+#ifndef PROHQINUPC_INCLUDE_INTEGRATIONMETA_HPP_
+#define PROHQINUPC_INCLUDE_INTEGRATIONMETA_HPP_
 
-#include "config.h"
+#include "./config.h"
 
 namespace ProHQinUPC {
 
@@ -81,9 +82,9 @@ struct IntegrationOutput {
       : result(result),
         error(error),
         MC_chi2(MC_chi2),
-        MC_chi2inter(MC_chi2inter){};
+        MC_chi2inter(MC_chi2inter) {}
 };
 
 }  // namespace ProHQinUPC
 
-#endif  // IntegrationMeta_H_
+#endif  // PROHQINUPC_INCLUDE_INTEGRATIONMETA_HPP_

@@ -12,5 +12,6 @@ repos:
     hooks:
     # Hooks using native
     - id: clang-format         # formatter for C/C++ code based on a style guide
-  #   - id: cpplint              # linter (or style-error checker) for Google C++ Style Guide
+    - id: cpplint              # linter (or style-error checker) for Google C++ Style Guide
+      args: ["--filter=-legal/copyright", "--exclude=src/ME/ROK.cpp", "--exclude=src/ME/RQED.cpp"]
   #   - id: cppcheck             # static analyzer for C/C++ code

@@ -1,5 +1,8 @@
 #include "../include/config.h"
 
+#ifndef PROHQINUPC_SRC_ME_H_
+#define PROHQINUPC_SRC_ME_H_
+
 namespace ProHQinUPC {
 
 /** @brief Holds all matrix elements as functions of the Mandelstam variables */
@@ -82,3 +85,5 @@ cdbl A3(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up);
 
 }  // namespace ME
 }  // namespace ProHQinUPC
+
+#endif  // PROHQINUPC_SRC_ME_H_
