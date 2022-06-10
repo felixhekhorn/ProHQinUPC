@@ -2,18 +2,20 @@
  * @file Color.hpp
  * @brief defines color constants
  */
- 
+
 #ifndef Color_HPP_
 #define Color_HPP_
 
 #include "config.h"
- 
+
 /** @brief [debug] flag to unset QED-like contributions */
 #define _fQED 1.
 
+namespace ProHQinUPC {
+
 /** @brief constants related to color space */
 namespace Color {
-    
+
 /** @brief number of Colors \f$N_C \f$ */
 cuint NC = 3;
 
@@ -30,5 +32,7 @@ cdbl Kgph = 1./(cdbl(NC*NC-1));
 cdbl Kqph = 1./(cdbl(NC));
 
 }
+
+} // namespace ProHQinUPC
 
 #endif // Color_HPP_

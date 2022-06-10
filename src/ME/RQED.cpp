@@ -1,6 +1,6 @@
 #include "../ME.h"
 
-cdbl ME::RQED(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up)  {
+cdbl ProHQinUPC::ME::RQED(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up)  {
     DEF_s5
     DEF_s3
     DEF_s4

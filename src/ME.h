@@ -1,5 +1,9 @@
 #include "../include/config.h"
 
+namespace ProHQinUPC {
+
+
+/** @brief Holds all matrix elements as functions of the Mandelstam variables */
 namespace ME {
 
 // cast MMa as macro
@@ -77,3 +81,4 @@ cdbl A2(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up);
 cdbl A3(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up);
 
 } // namespace ME
+} // namespace ProHQinUPC
