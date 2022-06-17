@@ -4,8 +4,11 @@
 #include "./Integration.hpp"
 #include "./ME.h"
 #include "./PhasespacePoint.h"
+#include "./ProHQinUPC.h"
 #include "./config-buildtime.hpp"
+#include "./config.h"
 
+using ProHQinUPC::cdbl;
 using std::cout;
 using std::endl;
 
@@ -38,6 +41,13 @@ int main(int argc, char** argv) {
     ic.MC_warmupCalls = 100;
     ProHQinUPC::IntegrationOutput io;
     cout << "int = " << ProHQinUPC::integrate(&t, 1, ic, &io) << endl;
+    // Run actual application
+    cdbl xTilde = .8;
+    cdbl omega = 1.;
+    cdbl deltax = 1e-6;
+    cdbl deltay = 7e-6;
+    ProHQinUPC::ProHQinUPC app(3, 2.25, xTilde, omega, deltax, deltay);
+    cout << "sigma = " << app.sigma() << endl;
   } catch (const std::exception& e) {
     cout << "Hoppala, an exception got raised ..." << endl << e.what();
   }
