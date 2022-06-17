@@ -7,7 +7,7 @@ language, however, please read a "Please" in front of everything.
 
 - :brain: Be reasonable and use common sense when contributing: we
   added some points we would like to highlight below
-- :family: Follow our [Code of Conduct](https://github.com/felixhekhorn/ProHQinUPC/blob/master/.github/CODE_OF_CONDUCT.md)
+- :family: Follow our [Code of Conduct](https://github.com/felixhekhorn/ProHQinUPC/blob/main/.github/CODE_OF_CONDUCT.md)
 
 ## Tools
 
