@@ -40,5 +40,5 @@ executable(
    'ProHQinUPC',
    ['main.cpp'] + sources,
    include_directories : inc,
-   dependencies: [gsl_dep, boost_dep, dvegas_dep, rk_dep]
+   dependencies: [gsl_dep, boost_dep, lhapdf_dep, dvegas_dep, rk_dep]
 )

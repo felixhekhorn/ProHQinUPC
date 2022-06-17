@@ -28,7 +28,7 @@ struct test : HepSource::Integrand {
  */
 int main(int argc, char** argv) {
   try {
-    // test matrix element
+    /*// test matrix element
     cout << ProHQinUPC::ME::BQED(1., 7., -.3) << endl;
     // test phase space
     ProHQinUPC::PhasespacePoint p(1., 100.);
@@ -40,16 +40,18 @@ int main(int argc, char** argv) {
     ic.calls = 100;
     ic.MC_warmupCalls = 100;
     ProHQinUPC::IntegrationOutput io;
-    cout << "int = " << ProHQinUPC::integrate(&t, 1, ic, &io) << endl;
+    cout << "int = " << ProHQinUPC::integrate(&t, 1, ic, &io) << endl;*/
     // Run actual application
     cdbl xTilde = .8;
     cdbl omega = 1.;
     cdbl deltax = 1e-6;
     cdbl deltay = 7e-6;
     ProHQinUPC::ProHQinUPC app(3, 2.25, xTilde, omega, deltax, deltay);
+    app.setHadronicS(100.);
+    app.setPdf("NNPDF40_nnlo_as_01180", 0);
     cout << "sigma = " << app.sigma() << endl;
   } catch (const std::exception& e) {
-    cout << "Hoppala, an exception got raised ..." << endl << e.what();
+    cout << "Hoppala, an exception got raised ..." << endl << e.what() << endl;
   }
 
   return EXIT_SUCCESS;

@@ -22,7 +22,7 @@ boost_dep = dependency('boost')
 #pye_dep = dependency('python3-embed', version : '>=3.9')
 
 # HEP libraries
-#lhapdf_dep = dependency('lhapdf', version : '>=6')
+lhapdf_dep = dependency('lhapdf', version : '>=6')
 rk_dep = dependency('rk')
 dvegas_dep = dependency('dvegas')
 

@@ -8,6 +8,13 @@ using std::domain_error;
 
 namespace ProHQinUPC {
 
+/** @brief check hadronic S */
+#define checkHadronicS(Sh)                                               \
+  if (!std::isfinite(Sh) || Sh <= 4. * this->ker->m2)                    \
+    throw domain_error(                                                  \
+        "hadronic s has to be set, finite and strictly larger than the " \
+        "threshold 4m^2!");
+
 ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
                        cdbl deltay)
     : intOut(new IntegrationOutput()) {
@@ -26,14 +33,14 @@ ProHQinUPC::~ProHQinUPC() {
   if (0 != this->intOut) delete this->intOut;
 }
 
-void ProHQinUPC::setXTilde(cdbl xTilde) {
+void ProHQinUPC::setXTilde(cdbl xTilde) const {
   if (xTilde <= 0. || xTilde >= 1.)
     throw domain_error(
         (boost::format("xTilde (%e) has to be within (0,1)!") % xTilde).str());
   this->ker->xTilde = xTilde;
 }
 
-void ProHQinUPC::setOmega(cdbl omega) {
+void ProHQinUPC::setOmega(cdbl omega) const {
   if (omega <= 0. || omega >= 2.)
     throw domain_error(
         (boost::format("omega (%e) has to be within (0,2)!") % omega).str());
@@ -45,7 +52,7 @@ void ProHQinUPC::setOmega(cdbl omega) {
   this->ker->omega = omega;
 }
 
-void ProHQinUPC::setDeltax(cdbl deltax) {
+void ProHQinUPC::setDeltax(cdbl deltax) const {
   if (deltax <= 0 || deltax >= 1)
     throw domain_error(
         (boost::format("deltax (%e) has to be positive and smaller then 1!") %
@@ -54,17 +61,31 @@ void ProHQinUPC::setDeltax(cdbl deltax) {
   this->ker->deltax = deltax;
 }
 
-void ProHQinUPC::setDeltay(cdbl deltay) {
+void ProHQinUPC::setDeltay(cdbl deltay) const {
   if (deltay <= 0 || deltay >= 2 || deltay >= this->ker->omega)
     throw domain_error((boost::format("deltay (%e) has to be positive, smaller "
-                                      "than 2 and smaller than omega (%e)!") %
+                                      "then 2 and smaller than omega (%e)!") %
                         deltay % (this->ker->omega))
                            .str());
   this->ker->deltay = deltay;
 }
+void ProHQinUPC::setHadronicS(cdbl Sh) const {
+  checkHadronicS(Sh) this->ker->Sh = Sh;
+}
+void ProHQinUPC::setPdf(const str& name, const int member) const {
+  // delete old
+  if (0 != this->ker->pdf) delete (this->ker->pdf);
+  if (0 != this->ker->aS) delete (this->ker->aS);
+  // allocate new
+  this->ker->pdf = LHAPDF::mkPDF(name, member);
+  this->ker->aS = LHAPDF::mkAlphaS(name, member);
+}
 
 cdbl ProHQinUPC::sigma() const {
-  return integrate(this->ker, 1, this->intConf, this->intOut);
+  checkHadronicS(this->ker->Sh) if (0 == this->ker->pdf) throw domain_error(
+      "we need a PDF!");
+  if (0 == this->ker->aS) throw domain_error("we need a alpha_s prescription!");
+  return integrate(this->ker, 2, this->intConf, this->intOut);
 }
 
 }  // namespace ProHQinUPC

@@ -42,25 +42,44 @@ class ProHQinUPC {
    * @param xTilde factor to soft regulation parameter \f$\tilde\rho = 1-\tilde
    * x(1-\rho^*)\f$
    */
-  void setXTilde(cdbl xTilde);
+  void setXTilde(cdbl xTilde) const;
 
   /**
    * @brief sets omega
    * @param omega collinear regulation parameter \f$\omega\f$
    */
-  void setOmega(cdbl omega);
+  void setOmega(cdbl omega) const;
 
   /**
    * @brief sets deltax
    * @param deltax upper integration bound in x
    */
-  void setDeltax(cdbl deltax);
+  void setDeltax(cdbl deltax) const;
 
   /**
    * @brief sets deltay
    * @param deltay lower integration bound in y
    */
-  void setDeltay(cdbl deltay);
+  void setDeltay(cdbl deltay) const;
+
+  ///@}
+
+  /** @name hadronic setter */
+  ///@{
+
+  /**
+   * @brief sets hadronic \f$S_h = (p + q)^2 \f$
+   * @param Sh hadronic S
+   */
+  void setHadronicS(cdbl Sh) const;
+
+  /**
+   * @brief sets PDF
+   * @param name LHAPDF/ported name
+   * @param member (LHAPDF) member index
+   * @see LHAPDF::mkPDF()
+   */
+  void setPdf(const str& name, const int member) const;
 
   ///@}
 
