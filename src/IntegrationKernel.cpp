@@ -10,7 +10,8 @@ using std::domain_error;
 
 namespace ProHQinUPC {
 
-IntegrationKernel::IntegrationKernel(cuint nlf, cdbl m2) : nlf(nlf), m2(m2) {}
+IntegrationKernel::IntegrationKernel(cuint nlf, cdbl m2)
+    : nlf(nlf), m2(m2), flags(true, true, true, true, true, true, true) {}
 
 IntegrationKernel::~IntegrationKernel() {
   if (0 != this->pdf) delete this->pdf;
@@ -58,15 +59,7 @@ void IntegrationKernel::setZ(cdbl a) {
   this->s = this->z * this->Sh;
 }
 
-void IntegrationKernel::operator()(const double x[], const int k[],
-                                   const double& weight, const double aux[],
-                                   double f[]) {
-  // start with LO
-  this->setZ(x[0]);
-  this->setTheta1(x[1]);
-  // setup vectors
-  PhasespacePoint p(this->m2, this->Sh);
-  p.setupLO(this->z, this->Theta1);
+cdbl IntegrationKernel::getLO() const {
   // LO is the soft limit (x=1) of NLO kinematics
   KinematicVars kin(this->m2, this->s, 1., 0., this->Theta1, 0.);
   /// \todo What to use as renomalization and factorization scale?
@@ -85,7 +78,22 @@ void IntegrationKernel::operator()(const double x[], const int k[],
   // Compute matrix element
   cdbl me = ME::BQED(this->m2, this->s, kin.t1);
   // join everything
-  f[0] = nLO * nLOg * n * me;
+  return nLO * nLOg * n * me;
+}
+
+void IntegrationKernel::operator()(const double x[], const int k[],
+                                   const double& weight, const double aux[],
+                                   double f[]) {
+  // LO variables are always there
+  this->setZ(x[0]);
+  this->setTheta1(x[1]);
+  // compute LO
+  if (this->flags.useLeadingOrder && this->flags.useGluonicChannel) {
+    PhasespacePoint p(this->m2, this->Sh);
+    p.setupLO(this->z, this->Theta1);
+    cdbl sigma_LO = this->getLO();
+    f[0] += sigma_LO;
+  }
 }
 
 void IntegrationKernel::Dvegas_init() const {}

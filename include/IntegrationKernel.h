@@ -4,6 +4,7 @@
 #include <LHAPDF/LHAPDF.h>
 #include <dvegas/dvegas.h>
 
+#include "./Flags.hpp"
 #include "./config.h"
 
 namespace ProHQinUPC {
@@ -28,7 +29,6 @@ class IntegrationKernel : public HepSource::Integrand {
 
   /** @brief partonic s */
   dbl s = dblNaN;
-
   ///@}
 
   /**
@@ -64,6 +64,12 @@ class IntegrationKernel : public HepSource::Integrand {
    */
   cdbl getElectricCharge(cint PDGId) const;
 
+  /**
+   * @brief compute LO contributions
+   * @return \f$\sigma_{LO}\f$
+   */
+  cdbl getLO() const;
+
  public:
   /**
    * @brief constructor
@@ -82,6 +88,9 @@ class IntegrationKernel : public HepSource::Integrand {
 
   /** @brief heavy quark mass */
   cdbl m2;
+
+  /** @brief controlling flags */
+  Flags flags;
   ///@}
 
   /** @name public integration variables */

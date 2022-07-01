@@ -29,8 +29,8 @@ ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
   this->setDeltax(deltax);
   this->setDeltay(deltay);
 
-  this->intConf.calls = 100;
-  this->intConf.MC_warmupCalls = 100;
+  this->intConfLO.calls = 100;
+  this->intConfLO.MC_warmupCalls = 100;
 }
 
 ProHQinUPC::~ProHQinUPC() {
@@ -93,12 +93,11 @@ void ProHQinUPC::setPdf(const str& name, const int member) const {
 }
 
 cdbl ProHQinUPC::sigma() const {
-  checkHadronicS(this->ker->Sh) checkAlphaEM(
-      this->ker->alphaEM) if (0 ==
-                              this->ker
-                                  ->pdf) throw domain_error("we need a PDF!");
+  checkHadronicS(this->ker->Sh) checkAlphaEM(this->ker->alphaEM)
+
+      if (0 == this->ker->pdf) throw domain_error("we need a PDF!");
   if (0 == this->ker->aS) throw domain_error("we need a alpha_s prescription!");
-  return integrate(this->ker, 2, this->intConf, this->intOut);
+  return integrate(this->ker, 2, this->intConfLO, this->intOut);
 }
 
 }  // namespace ProHQinUPC

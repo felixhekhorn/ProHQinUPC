@@ -11,8 +11,8 @@ class ProHQinUPC {
   /** @brief integration kernel */
   IntegrationKernel* ker;
 
-  /** @brief current (last) IntegrationOutput */
-  IntegrationConfig intConf;
+  /** @brief LO IntegrationConfig */
+  IntegrationConfig intConfLO;
 
   /** @brief current (last) IntegrationOutput */
   IntegrationOutput* intOut;
@@ -61,6 +61,12 @@ class ProHQinUPC {
    * @param deltay lower integration bound in y
    */
   void setDeltay(cdbl deltay) const;
+
+  /**
+   * @brief manipulate controlling flags
+   * @return controlling flags
+   */
+  inline Flags& flags() const { return this->ker->flags; }
 
   ///@}
 

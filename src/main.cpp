@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
     cdbl deltay = 7e-6;
     ProHQinUPC::ProHQinUPC app(3, 2.25, xTilde, omega, deltax, deltay);
     app.setHadronicS(100.);
+    // app.flags().useGluonicChannel = false;
     app.setPdf("NNPDF40_nnlo_as_01180", 0);
     cout << "sigma = " << app.sigma() << endl;
   } catch (const std::exception& e) {
