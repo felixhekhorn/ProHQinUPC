@@ -15,6 +15,11 @@ namespace ProHQinUPC {
         "hadronic s has to be set, finite and strictly larger than the " \
         "threshold 4m^2!");
 
+/** @brief check alphaEM */
+#define checkAlphaEM(alphaEM)                   \
+  if (!std::isfinite(alphaEM) || alphaEM <= 0.) \
+    throw domain_error("alpha_EM has to be finite and strict positive!");
+
 ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
                        cdbl deltay)
     : intOut(new IntegrationOutput()) {
@@ -69,9 +74,15 @@ void ProHQinUPC::setDeltay(cdbl deltay) const {
                            .str());
   this->ker->deltay = deltay;
 }
+
 void ProHQinUPC::setHadronicS(cdbl Sh) const {
   checkHadronicS(Sh) this->ker->Sh = Sh;
 }
+
+void ProHQinUPC::setAlphaEM(cdbl alphaEM) const {
+  checkAlphaEM(alphaEM) this->ker->alphaEM = alphaEM;
+}
+
 void ProHQinUPC::setPdf(const str& name, const int member) const {
   // delete old
   if (0 != this->ker->pdf) delete (this->ker->pdf);
@@ -82,8 +93,10 @@ void ProHQinUPC::setPdf(const str& name, const int member) const {
 }
 
 cdbl ProHQinUPC::sigma() const {
-  checkHadronicS(this->ker->Sh) if (0 == this->ker->pdf) throw domain_error(
-      "we need a PDF!");
+  checkHadronicS(this->ker->Sh) checkAlphaEM(
+      this->ker->alphaEM) if (0 ==
+                              this->ker
+                                  ->pdf) throw domain_error("we need a PDF!");
   if (0 == this->ker->aS) throw domain_error("we need a alpha_s prescription!");
   return integrate(this->ker, 2, this->intConf, this->intOut);
 }

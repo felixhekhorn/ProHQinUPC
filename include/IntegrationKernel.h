@@ -57,6 +57,13 @@ class IntegrationKernel : public HepSource::Integrand {
   cdbl getZmin() const;
   ///@}
 
+  /**
+   * @brief returns electric charge of particle
+   * @param PDGId PDG particle id
+   * @return electric charge
+   */
+  cdbl getElectricCharge(cint PDGId) const;
+
  public:
   /**
    * @brief constructor
@@ -96,6 +103,10 @@ class IntegrationKernel : public HepSource::Integrand {
 
   /** @name hadronic variables */
   ///@{
+
+  /** @brief electro-magnetic coupling constant - defaults to PDG value */
+  dbl alphaEM = 1. / 137.0359991;
+
   /** @brief hadronic center-of-mass energy \f$S_h=(p+q)^2\f$ */
   dbl Sh = dblNaN;
 

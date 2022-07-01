@@ -68,6 +68,12 @@ class ProHQinUPC {
   ///@{
 
   /**
+   * @brief sets electro-magnetic coupling constant
+   * @param alphaEM electro-magnetic coupling constant
+   */
+  void setAlphaEM(cdbl alphaEM) const;
+
+  /**
    * @brief sets hadronic \f$S_h = (p + q)^2 \f$
    * @param Sh hadronic S
    */
