@@ -51,6 +51,7 @@ int main(int argc, char **argv) {
     // app.flags().useGluonicChannel = false;
     app.setPdf("NNPDF40_nnlo_as_01180", 0);
     app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20, "test-pt.dat");
+    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentumScaling, 20, "test-xt.dat");
     app.activateHistogram(ProHQinUPC::histT::HAQRapidity, 20, "test-y.dat");
     cout << "sigma = " << app.sigma() << endl;
   } catch (const std::exception &e) {

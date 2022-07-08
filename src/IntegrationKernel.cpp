@@ -91,11 +91,12 @@ void IntegrationKernel::fillHistograms(const PhasespacePoint &p, cdbl i) const {
         var = p.getP2().pt();
         break;
       case histT::HAQTransverseMomentumScaling: {
-        cdbl ptmax = sqrt(p.getSh() / 4. - m2);
+        cdbl ptmax = this->getHAQTransverseMomentumMax();
         var = p.getP2().pt() / ptmax;
       } break;
       case histT::HAQFeynmanX: {
-        cdbl plmax = sqrt(p.getSh() / 4. - m2);
+        // all transverse or all longitudinal is just the same
+        cdbl plmax = this->getHAQTransverseMomentumMax();
         var = p.getP2().pz() / plmax;
       } break;
       default:
