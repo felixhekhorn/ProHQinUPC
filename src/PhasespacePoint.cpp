@@ -22,7 +22,7 @@ void PhasespacePoint::setupLO(cdbl z, cdbl Theta1) {
   cdbl sqrts = sqrt(s);
   cdbl beta = sqrt(1. - 4. * m2 / s);
   this->k1 = P4(sqrts / (2.) * UnitVector3::zAxis(), 0.);
-  this->q = P4(sqrts / (2.), -k1.momentum());  // space-like!
+  this->q = P4(sqrts / (2.), -k1.momentum());
   const UnitVector3 u(0., sin(this->Theta1), cos(this->Theta1));
   this->p1 = P4(-.5 * sqrts * beta * u, sqrt(m2));
   this->p2 = P4(.5 * sqrts * beta * u, sqrt(m2));
