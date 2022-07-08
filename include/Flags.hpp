@@ -33,8 +33,8 @@ struct Flags {
    * @param useLeadingOrder use leading order calculations?
    * @param useNextToLeadingOrder use (pure) next-to-leading order calculations?
    */
-  Flags(bool useGluonicChannel, bool useQuarkChannel, bool useLeadingOrder,
-        bool useNextToLeadingOrder, bool usePhoton, bool usePhotonZ, bool useZ)
+  Flags(bool useGluonicChannel, bool useQuarkChannel, bool useLeadingOrder, bool useNextToLeadingOrder, bool usePhoton,
+        bool usePhotonZ, bool useZ)
       : useGluonicChannel(useGluonicChannel),
         useQuarkChannel(useQuarkChannel),
         useLeadingOrder(useLeadingOrder),

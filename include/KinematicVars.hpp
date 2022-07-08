@@ -36,8 +36,7 @@ struct KinematicVars {
    * @param Theta2 second angular variable
    */
   KinematicVars(cdbl m2, cdbl s, cdbl x, cdbl y, cdbl Theta1, cdbl Theta2) {
-    if (!std::isfinite(m2) || m2 <= 0.)
-      throw std::domain_error("m2 has to be strictly positive!");
+    if (!std::isfinite(m2) || m2 <= 0.) throw std::domain_error("m2 has to be strictly positive!");
     using std::cos;
     using std::max;
     using std::min;
@@ -53,9 +52,7 @@ struct KinematicVars {
     this->sinPsi = sqrt(1. - cosPsi * cosPsi);
     this->beta5 = sqrt(1. - 4. * m2 / s5);
 
-    this->t1 = -1. / 2. * (s5 - up) *
-               (1. + beta5 * cos(Theta2) * sin(Theta1) * sinPsi +
-                beta5 * cos(Theta1) * cosPsi);
+    this->t1 = -1. / 2. * (s5 - up) * (1. + beta5 * cos(Theta2) * sin(Theta1) * sinPsi + beta5 * cos(Theta1) * cosPsi);
     this->u1 = -1. / 2. * (s + up + 2. * Sqrts5 * beta5 * q0 * cos(Theta1));
   }
 };

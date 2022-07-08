@@ -31,8 +31,7 @@ class ProHQinUPC {
    * @param deltax offset to upper integration bound in x \f$\delta_x \f$
    * @param deltay offset to lower integration bound in y \f$\delta_y \f$
    */
-  ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
-             cdbl deltay);
+  ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax, cdbl deltay);
 
   /** @brief destructor */
   ~ProHQinUPC();
@@ -105,8 +104,7 @@ class ProHQinUPC {
    * @param max optional max value (will be bined uniformly from min)
    * @param useLog use logarthmic spacing for optional values
    */
-  void activateHistogram(const histT t, cuint size, const str& path,
-                         cdbl min = dblNaN, cdbl max = dblNaN,
+  void activateHistogram(const histT t, cuint size, const str& path, cdbl min = dblNaN, cdbl max = dblNaN,
                          const bool useLog = false);
 
   ///@}

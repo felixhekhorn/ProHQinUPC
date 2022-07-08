@@ -17,12 +17,10 @@ namespace ProHQinUPC {
         "threshold 4m^2!");
 
 /** @brief check alphaEM */
-#define checkAlphaEM(alphaEM)                   \
-  if (!std::isfinite(alphaEM) || alphaEM <= 0.) \
-    throw domain_error("alpha_EM has to be finite and strict positive!");
+#define checkAlphaEM(alphaEM) \
+  if (!std::isfinite(alphaEM) || alphaEM <= 0.) throw domain_error("alpha_EM has to be finite and strict positive!");
 
-ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
-                       cdbl deltay)
+ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax, cdbl deltay)
     : intOut(new IntegrationOutput()) {
   this->ker = new IntegrationKernel(nlf, m2);
   this->setXTilde(xTilde);
@@ -41,29 +39,22 @@ ProHQinUPC::~ProHQinUPC() {
 
 void ProHQinUPC::setXTilde(cdbl xTilde) const {
   if (xTilde <= 0. || xTilde >= 1.)
-    throw domain_error(
-        (boost::format("xTilde (%e) has to be within (0,1)!") % xTilde).str());
+    throw domain_error((boost::format("xTilde (%e) has to be within (0,1)!") % xTilde).str());
   this->ker->xTilde = xTilde;
 }
 
 void ProHQinUPC::setOmega(cdbl omega) const {
   if (omega <= 0. || omega >= 2.)
-    throw domain_error(
-        (boost::format("omega (%e) has to be within (0,2)!") % omega).str());
+    throw domain_error((boost::format("omega (%e) has to be within (0,2)!") % omega).str());
   if (this->ker->deltay >= omega)
     throw domain_error(
-        (boost::format("omega (%e) has to be bigger than deltay (%e)!") %
-         omega % (this->ker->deltay))
-            .str());
+        (boost::format("omega (%e) has to be bigger than deltay (%e)!") % omega % (this->ker->deltay)).str());
   this->ker->omega = omega;
 }
 
 void ProHQinUPC::setDeltax(cdbl deltax) const {
   if (deltax <= 0 || deltax >= 1)
-    throw domain_error(
-        (boost::format("deltax (%e) has to be positive and smaller then 1!") %
-         deltax)
-            .str());
+    throw domain_error((boost::format("deltax (%e) has to be positive and smaller then 1!") % deltax).str());
   this->ker->deltax = deltax;
 }
 
@@ -76,15 +67,11 @@ void ProHQinUPC::setDeltay(cdbl deltay) const {
   this->ker->deltay = deltay;
 }
 
-void ProHQinUPC::setHadronicS(cdbl Sh) const {
-  checkHadronicS(Sh) this->ker->Sh = Sh;
-}
+void ProHQinUPC::setHadronicS(cdbl Sh) const { checkHadronicS(Sh) this->ker->Sh = Sh; }
 
-void ProHQinUPC::setAlphaEM(cdbl alphaEM) const {
-  checkAlphaEM(alphaEM) this->ker->alphaEM = alphaEM;
-}
+void ProHQinUPC::setAlphaEM(cdbl alphaEM) const { checkAlphaEM(alphaEM) this->ker->alphaEM = alphaEM; }
 
-void ProHQinUPC::setPdf(const str& name, const int member) const {
+void ProHQinUPC::setPdf(const str &name, const int member) const {
   // delete old
   if (0 != this->ker->pdf) delete (this->ker->pdf);
   if (0 != this->ker->aS) delete (this->ker->aS);
@@ -103,26 +90,22 @@ cdbl ProHQinUPC::sigma() const {
   this->setupHistograms();
   // compute
   dbl res = dblNaN;
-  if (this->flags().useLeadingOrder)
-    res = integrate(this->ker, 2, this->intConfLO, this->intOut);
+  if (this->flags().useLeadingOrder) res = integrate(this->ker, 2, this->intConfLO, this->intOut);
 
   // write histograms
-  for (histMapT::const_iterator it = this->ker->histMap.cbegin();
-       it != this->ker->histMap.cend(); ++it)
+  for (histMapT::const_iterator it = this->ker->histMap.cbegin(); it != this->ker->histMap.cend(); ++it)
     it->second->writeToFile();
   return res;
 }
 
-void ProHQinUPC::activateHistogram(const histT t, cuint size, const str& path,
-                                   cdbl min, cdbl max, const bool useLog) {
+void ProHQinUPC::activateHistogram(const histT t, cuint size, const str &path, cdbl min, cdbl max, const bool useLog) {
   // assert existance of path
   boost::filesystem::path fp(path);
   boost::filesystem::path par = fp.parent_path();
   if (par.string().size() > 0 && !boost::filesystem::exists(par))
-    throw std::ios::failure("histogram path \"" + par.string() +
-                            "\" does not exist!");
+    throw std::ios::failure("histogram path \"" + par.string() + "\" does not exist!");
   // create
-  gslpp::Histogram* h = new gslpp::Histogram(size);
+  gslpp::Histogram *h = new gslpp::Histogram(size);
   if (!std::isnan(min) && !std::isnan(max)) {
     if (useLog)
       h->setRangesUniform(min, max);
@@ -136,8 +119,7 @@ void ProHQinUPC::activateHistogram(const histT t, cuint size, const str& path,
 }
 
 void ProHQinUPC::setupHistograms() const {
-  for (histMapT::const_iterator it = this->ker->histMap.cbegin();
-       it != this->ker->histMap.cend(); ++it) {
+  for (histMapT::const_iterator it = this->ker->histMap.cbegin(); it != this->ker->histMap.cend(); ++it) {
     if (it->second->isInitialized()) continue;
     switch (it->first) {
       case histT::HAQRapidity: {
@@ -145,8 +127,7 @@ void ProHQinUPC::setupHistograms() const {
         it->second->setRangesUniform(-y0, y0);
       } break;
       case histT::HAQTransverseMomentum:
-        it->second->setRangesUniform(0.,
-                                     this->ker->getHAQTransverseMomentumMax());
+        it->second->setRangesUniform(0., this->ker->getHAQTransverseMomentumMax());
         break;
       case histT::HAQTransverseMomentumScaling:
         it->second->setRangesLog10(1.e-3, 1.);

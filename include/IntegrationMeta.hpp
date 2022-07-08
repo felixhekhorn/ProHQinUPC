@@ -77,12 +77,8 @@ struct IntegrationOutput {
    * @param MC_chi2 chi^2
    * @param MC_chi2inter number of iteration to converge chi^2
    */
-  IntegrationOutput(cdbl result = 0, cdbl error = 0, cdbl MC_chi2 = 0,
-                    cuint MC_chi2inter = 0)
-      : result(result),
-        error(error),
-        MC_chi2(MC_chi2),
-        MC_chi2inter(MC_chi2inter) {}
+  explicit IntegrationOutput(cdbl result = 0, cdbl error = 0, cdbl MC_chi2 = 0, cuint MC_chi2inter = 0)
+      : result(result), error(error), MC_chi2(MC_chi2), MC_chi2inter(MC_chi2inter) {}
 };
 
 }  // namespace ProHQinUPC

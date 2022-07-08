@@ -149,17 +149,13 @@ class IntegrationKernel : public HepSource::Integrand {
    * @brief get maximum value of pt of heavy anti quark
    * @return pt_Qbar^max
    */
-  inline cdbl getHAQTransverseMomentumMax() const {
-    return sqrt(this->Sh / 4. - this->m2);
-  }
+  inline cdbl getHAQTransverseMomentumMax() const { return sqrt(this->Sh / 4. - this->m2); }
 
   /**
    * @brief get maximum value of rapidity of heavy anti quark
    * @return y_Qbar^max
    */
-  inline cdbl getHAQRapidityMax() const {
-    return atanh(sqrt(1. - 4. * this->m2 / this->Sh));
-  }
+  inline cdbl getHAQRapidityMax() const { return atanh(sqrt(1. - 4. * this->m2 / this->Sh)); }
   ///@}
 
   /**
@@ -170,8 +166,7 @@ class IntegrationKernel : public HepSource::Integrand {
    * @param aux unadapted continuous integration variables
    * @param f output
    */
-  void operator()(const double x[], const int k[], const double& weight,
-                  const double aux[], double f[]);
+  void operator()(const double x[], const int k[], const double& weight, const double aux[], double f[]);
 
   /** @see HepSource::Integrand::Dvegas_init */
   void Dvegas_init() const;

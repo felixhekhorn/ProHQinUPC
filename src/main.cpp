@@ -16,8 +16,7 @@ using std::endl;
 struct test : HepSource::Integrand {
   void Dvegas_init() {}
   void Dvegas_final(int a) {}
-  void operator()(const double x[], const int k[], const double& weight,
-                  const double aux[], double f[]) {
+  void operator()(const double x[], const int k[], const double &weight, const double aux[], double f[]) {
     f[0] = x[0];
   }
 };
@@ -27,7 +26,7 @@ struct test : HepSource::Integrand {
  * @param argc number of arguments
  * @param argv CLI arguments
  */
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   try {
     /*// test matrix element
     cout << ProHQinUPC::ME::BQED(1., 7., -.3) << endl;
@@ -51,11 +50,10 @@ int main(int argc, char** argv) {
     app.setHadronicS(100.);
     // app.flags().useGluonicChannel = false;
     app.setPdf("NNPDF40_nnlo_as_01180", 0);
-    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20,
-                          "test-pt.dat");
+    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20, "test-pt.dat");
     app.activateHistogram(ProHQinUPC::histT::HAQRapidity, 20, "test-y.dat");
     cout << "sigma = " << app.sigma() << endl;
-  } catch (const std::exception& e) {
+  } catch (const std::exception &e) {
     cout << "Hoppala, an exception got raised ..." << endl << e.what() << endl;
   }
 

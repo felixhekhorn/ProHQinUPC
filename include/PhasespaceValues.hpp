@@ -33,9 +33,7 @@ struct PhasespaceValues {
    * @brief total weight
    * @return sum of all parts
    */
-  inline cdbl tot() const {
-    return this->xEyE + this->xCyE + this->xEyC + this->xCyC;
-  }
+  inline cdbl tot() const { return this->xEyE + this->xCyE + this->xEyC + this->xCyC; }
 };
 
 }  // namespace ProHQinUPC

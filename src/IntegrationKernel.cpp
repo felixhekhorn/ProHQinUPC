@@ -17,8 +17,7 @@ IntegrationKernel::~IntegrationKernel() {
   if (0 != this->pdf) delete this->pdf;
   if (0 != this->aS) delete this->aS;
   // delete all histograms
-  for (histMapT::const_iterator it = this->histMap.cbegin();
-       it != this->histMap.cend(); ++it) {
+  for (histMapT::const_iterator it = this->histMap.cbegin(); it != this->histMap.cend(); ++it) {
     delete (it->second);
   }
 }
@@ -48,8 +47,7 @@ cdbl IntegrationKernel::getElectricCharge(cint PDGId) const {
     case 21:
       return 0.;  // g
     default:
-      throw domain_error(
-          (boost::format("unkown particle id: %d") % PDGId).str());
+      throw domain_error((boost::format("unkown particle id: %d") % PDGId).str());
   }
 }
 
@@ -77,17 +75,15 @@ cdbl IntegrationKernel::getLO() const {
   // collect PDF and related integration
   cdbl nLOg = this->V_z * 1. / this->z * this->pdf->xfxQ2(21, this->z, this->s);
   // matrix element normalization and phase space
-  cdbl n = 8. * M_PI * Color::Kgph * cdbl(Color::NC) * Color::CF * 1. /
-           (4. * this->s) * this->m2 * kin.beta5 * sin(this->Theta1) *
-           this->V_Theta1;
+  cdbl n = 8. * M_PI * Color::Kgph * cdbl(Color::NC) * Color::CF * 1. / (4. * this->s) * this->m2 * kin.beta5 *
+           sin(this->Theta1) * this->V_Theta1;
   // Compute matrix element
   cdbl me = ME::BQED(this->m2, this->s, kin.t1);
   // join everything
   return nLO * nLOg * n * me;
 }
 
-void IntegrationKernel::operator()(const double x[], const int k[],
-                                   const double& weight, const double aux[],
+void IntegrationKernel::operator()(const double x[], const int k[], const double &weight, const double aux[],
                                    double f[]) {
   this->vegasWeight = &weight;
   dbl res = 0.;
@@ -106,20 +102,17 @@ void IntegrationKernel::operator()(const double x[], const int k[],
 }
 
 void IntegrationKernel::scaleHistograms(cdbl s) const {
-  for (histMapT::const_iterator it = this->histMap.cbegin();
-       it != this->histMap.cend(); ++it)
-    it->second->scale(s);
+  for (histMapT::const_iterator it = this->histMap.cbegin(); it != this->histMap.cend(); ++it) it->second->scale(s);
 }
 
-void IntegrationKernel::fillHistograms(const PhasespacePoint& p, cdbl i) const {
+void IntegrationKernel::fillHistograms(const PhasespacePoint &p, cdbl i) const {
   // something active?
   if (this->histMap.empty()) return;
   if (0 == this->vegasWeight) return;
   cdbl value = i * (*this->vegasWeight);
   if (!std::isfinite(value) || 0. == value) return;
   // iterate
-  for (histMapT::const_iterator it = this->histMap.cbegin();
-       it != this->histMap.cend(); ++it) {
+  for (histMapT::const_iterator it = this->histMap.cbegin(); it != this->histMap.cend(); ++it) {
     dbl var = dblNaN;
     switch (it->first) {
       case histT::HAQRapidity:
@@ -145,8 +138,6 @@ void IntegrationKernel::fillHistograms(const PhasespacePoint& p, cdbl i) const {
 
 void IntegrationKernel::Dvegas_init() const { this->scaleHistograms(0.); }
 
-void IntegrationKernel::Dvegas_final(cuint iterations) const {
-  this->scaleHistograms(1. / cdbl(iterations));
-}
+void IntegrationKernel::Dvegas_final(cuint iterations) const { this->scaleHistograms(1. / cdbl(iterations)); }
 
 }  // namespace ProHQinUPC

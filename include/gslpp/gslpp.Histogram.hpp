@@ -41,9 +41,7 @@ class Histogram {
    * @brief constructor - initializes histogram
    * @param size number of bins
    */
-  explicit Histogram(const std::size_t size) : size(size) {
-    this->h = gsl_histogram_alloc(size);
-  }
+  explicit Histogram(const std::size_t size) : size(size) { this->h = gsl_histogram_alloc(size); }
 
   /**
    * @brief destructor
@@ -72,8 +70,7 @@ class Histogram {
    * @return gsl_histogram_set_ranges
    */
   const int setRangesLog10(const double min, const double max) {
-    if (min <= 0. || max <= 0. || max <= min)
-      throw std::invalid_argument("expects 0 < min < max!");
+    if (min <= 0. || max <= 0. || max <= min) throw std::invalid_argument("expects 0 < min < max!");
     const double mi = std::log10(min);
     const double ma = std::log10(max);
     const double d = (ma - mi) / this->size;
@@ -115,18 +112,14 @@ class Histogram {
    * @param w weight
    * @return gsl_histogram_accumulate
    */
-  const int accumulate(const double x, const double w) const {
-    return gsl_histogram_accumulate(this->h, x, w);
-  }
+  const int accumulate(const double x, const double w) const { return gsl_histogram_accumulate(this->h, x, w); }
 
   /**
    * @brief scales all histogram bins
    * @param s scale
    * @return gsl_histogram_scale
    */
-  const int scale(const double s) const {
-    return gsl_histogram_scale(this->h, s);
-  }
+  const int scale(const double s) const { return gsl_histogram_scale(this->h, s); }
 
   /**
    * @brief outputs data
@@ -135,8 +128,7 @@ class Histogram {
    * @param bin_format printf-format for bin value
    * @return gsl_histogram_fprintf
    */
-  const int fprintf(FILE* stream, const char* range_format,
-                    const char* bin_format) const {
+  const int fprintf(FILE* stream, const char* range_format, const char* bin_format) const {
     // empty?
     if (!this->isInitialized()) return 0;
     return gsl_histogram_fprintf(stream, this->h, range_format, bin_format);

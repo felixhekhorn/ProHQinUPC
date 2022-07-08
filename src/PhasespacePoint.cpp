@@ -31,8 +31,7 @@ void PhasespacePoint::setupLO(cdbl z, cdbl Theta1) {
   this->applyLTsToFinalFrame();
 }
 
-void PhasespacePoint::setupNLO(cdbl z, cdbl x, cdbl y, cdbl Theta1,
-                               cdbl Theta2) {
+void PhasespacePoint::setupNLO(cdbl z, cdbl x, cdbl y, cdbl Theta1, cdbl Theta2) {
   this->order = 1;
   this->z = z;
   this->s = this->Sh / z;
@@ -46,8 +45,7 @@ void PhasespacePoint::setupNLO(cdbl z, cdbl x, cdbl y, cdbl Theta1,
 
   this->k1 = P4(vs.k10 * UnitVector3(0., vs.sinPsi, vs.cosPsi), 0.);
   this->q = P4(vs.q0, vs.q0 * UnitVector3::zAxis());
-  const UnitVector3 u(sin(Theta2) * sin(Theta1), cos(Theta2) * sin(Theta1),
-                      cos(Theta1));
+  const UnitVector3 u(sin(Theta2) * sin(Theta1), cos(Theta2) * sin(Theta1), cos(Theta1));
   this->p1 = P4(.5 * sqrt(vs.s5) * vs.beta5 * u, sqrt(m2));
   this->p2 = P4(-.5 * sqrt(vs.s5) * vs.beta5 * u, sqrt(m2));
   P4 k2(k1.momentum() + q.momentum(), 0.);
@@ -60,15 +58,13 @@ void PhasespacePoint::setupNLO(cdbl z, cdbl x, cdbl y, cdbl Theta1,
     this->p1.boost(partonCMS);
     this->p2.boost(partonCMS);
     k2.boost(partonCMS);
-    this->q =
-        p1 + p2 + k2 - k1;  // trick, as space-like vectors can't be boosted
+    this->q = p1 + p2 + k2 - k1;  // trick, as space-like vectors can't be boosted
   }
   {  // align k1 to z
     using geom3::Rotation3;
     using geom3::Vector3;
     const Vector3 k1vec = this->k1.momentum();
-    const Rotation3 toZ(k1vec.cross(UnitVector3::zAxis()).direction(),
-                        k1vec.angle(UnitVector3::zAxis()));
+    const Rotation3 toZ(k1vec.cross(UnitVector3::zAxis()).direction(), k1vec.angle(UnitVector3::zAxis()));
     this->q.rotate(toZ);
     this->k1.rotate(toZ);
     this->p1.rotate(toZ);
@@ -120,20 +116,17 @@ const rk::P4 PhasespacePoint::getP2() const { return this->p2; }
 const bool PhasespacePoint::isNLO() const { return 1 == this->order; }
 
 cdbl PhasespacePoint::getX() const {
-  if (!this->isNLO())
-    throw std::domain_error("only NLO phasespace points have a x value");
+  if (!this->isNLO()) throw std::domain_error("only NLO phasespace points have a x value");
   return this->x;
 }
 
 cdbl PhasespacePoint::getY() const {
-  if (!this->isNLO())
-    throw std::domain_error("only NLO phasespace points have a y value");
+  if (!this->isNLO()) throw std::domain_error("only NLO phasespace points have a y value");
   return this->y;
 }
 
 cdbl PhasespacePoint::getTheta2() const {
-  if (!this->isNLO())
-    throw std::domain_error("only NLO phasespace points have a Theta2 value");
+  if (!this->isNLO()) throw std::domain_error("only NLO phasespace points have a Theta2 value");
   return this->Theta2;
 }
 

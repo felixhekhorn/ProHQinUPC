@@ -23,8 +23,7 @@ namespace ProHQinUPC {
  * @return \f$\int\limits_0^1 f(\vec a)\,da_1\dots da_n\f$
  */
 template <class IntKerT>
-cdbl integrate(IntKerT* K, cuint dim, const IntegrationConfig& cfg,
-               IntegrationOutput* out) {
+cdbl integrate(IntKerT *K, cuint dim, const IntegrationConfig &cfg, IntegrationOutput *out) {
   HepSource::Dvegas dv(dim, cfg.Dvegas_bins, 1, *K);
   /** @todo activate correlation between z and x?
    * -> Dvegas dv(dim,cfg.Dvegas_bins,2,{},0,1,F); */
@@ -33,9 +32,8 @@ cdbl integrate(IntKerT* K, cuint dim, const IntegrationConfig& cfg,
   K->Dvegas_init();
   // warm-up - catch eventually zero kernel
   try {
-    HepSource::VEGAS(dv, cfg.MC_warmupCalls, cfg.MC_warmupIterations, 0,
-                     cfg.verbosity - 3);
-  } catch (std::domain_error& e) {
+    HepSource::VEGAS(dv, cfg.MC_warmupCalls, cfg.MC_warmupIterations, 0, cfg.verbosity - 3);
+  } catch (std::domain_error &e) {
     out->result = 0;
     out->error = 0;
     out->MC_chi2 = 0;
@@ -59,10 +57,8 @@ cdbl integrate(IntKerT* K, cuint dim, const IntegrationConfig& cfg,
       res = e.integral();
       err = e.standardDeviation();
       if (cfg.verbosity > 1)
-        std::printf(
-            "[INFO] int%dD(Dvegas): [%d] % e ± %.3e (%.3f%%) chi2/it: %.3f\n",
-            dim, guard, res, err, fabs(err / res * 1e2),
-            e.chiSquarePerIteration());
+        std::printf("[INFO] int%dD(Dvegas): [%d] % e ± %.3e (%.3f%%) chi2/it: %.3f\n", dim, guard, res, err,
+                    fabs(err / res * 1e2), e.chiSquarePerIteration());
     } while (fabs(e.chiSquarePerIteration() - 1.0) > 0.5 && ++guard < 15);
   } else { /* simple run */
     K->Dvegas_init();
@@ -73,9 +69,8 @@ cdbl integrate(IntKerT* K, cuint dim, const IntegrationConfig& cfg,
   }
   K->Dvegas_final(cfg.MC_iterations);
   if (1 == cfg.verbosity)
-    std::printf(
-        "[INFO] int%dD(Dvegas): [%d] % e ± %.3e (%.3f%%) chi2/it: %.3f\n", dim,
-        guard, res, err, fabs(err / res * 1e2), e.chiSquarePerIteration());
+    std::printf("[INFO] int%dD(Dvegas): [%d] % e ± %.3e (%.3f%%) chi2/it: %.3f\n", dim, guard, res, err,
+                fabs(err / res * 1e2), e.chiSquarePerIteration());
   out->result = res;
   out->error = err;
   out->MC_chi2 = e.chiSquarePerIteration();
