@@ -7,16 +7,12 @@
 
 namespace ProHQinUPC {
 
-/** @brief forces x to be min <= x <= max  */
-#define mima(x, mi, ma) min(max(x, mi), ma)
-
 /**
  * @class KinematicVars
  * @brief computes all 2-to-3-particle phasespace variables
  */
 struct KinematicVars {
-  /** @name momentum variables computed in the cms of the heavy quark pair and q
-   * || z */
+  /** @name momentum variables computed in the cms of the heavy quark pair and q || z */
   ///@{
   dbl q0, k10, cosPsi, sinPsi, beta5;
   ///@}
@@ -48,7 +44,7 @@ struct KinematicVars {
     cdbl Sqrts5 = sqrt(s5);
     this->q0 = (s + up) / (2. * Sqrts5);
     this->k10 = (s5 - up) / (2. * Sqrts5);
-    this->cosPsi = mima((-s + 2. * k10 * q0) / (2. * k10 * q0), -1., 1.);
+    this->cosPsi = min(max((-s + 2. * k10 * q0) / (2. * k10 * q0), -1.), 1.);
     this->sinPsi = sqrt(1. - cosPsi * cosPsi);
     this->beta5 = sqrt(1. - 4. * m2 / s5);
 

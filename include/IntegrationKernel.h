@@ -55,13 +55,6 @@ class IntegrationKernel : public HepSource::Integrand {
   ///@}
 
   /**
-   * @brief returns electric charge of a particle
-   * @param PDGId PDG particle id
-   * @return electric charge
-   */
-  cdbl getElectricCharge(cint PDGId) const;
-
-  /**
    * @brief compute LO contributions
    * @return \f$\sigma_{LO}\f$
    */
