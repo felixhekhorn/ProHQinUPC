@@ -21,7 +21,7 @@ Next, to launch the program run the generated executable: `./builddir/src/ProHQi
 - [gsl](https://www.gnu.org/software/gsl/) >= 2.7
 - [Relativistic Kinematics (RK)](https://rk.hepforge.org/) >= 1.7
 - [Dvegas](https://dvegas.hepforge.org/) >= 2.0.3 with patched [`dvegas.h`](https://github.com/felixhekhorn/LeProHQ/blob/main/Patches/dvegas.h.patch) and [`dvegas.cpp`](https://github.com/felixhekhorn/LeProHQ/blob/main/Patches/dvegas.cpp.patch)
-- [boost](https://www.boost.org/) >= 1.74 - currently no special modules required, but `format.hpp`
+- [boost](https://www.boost.org/) >= 1.74 - used modules are `filesystem` and the headers for `format.hpp`
 - [lhapdf](https://lhapdf.hepforge.org/) >= 6.4
 
 ## Contributing

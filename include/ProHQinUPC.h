@@ -17,6 +17,9 @@ class ProHQinUPC {
   /** @brief current (last) IntegrationOutput */
   IntegrationOutput* intOut;
 
+  /** @brief setup all active histograms */
+  void setupHistograms() const;
+
  public:
   /**
    * @brief constructor
@@ -92,6 +95,19 @@ class ProHQinUPC {
    * @see LHAPDF::mkPDF()
    */
   void setPdf(const str& name, const int member) const;
+
+  /**
+   * @brief activates a histogram
+   * @param t histogram type
+   * @param size number of bins
+   * @param path file path
+   * @param min optional min value (will be bined uniformly to max)
+   * @param max optional max value (will be bined uniformly from min)
+   * @param useLog use logarthmic spacing for optional values
+   */
+  void activateHistogram(const histT t, cuint size, const str& path,
+                         cdbl min = dblNaN, cdbl max = dblNaN,
+                         const bool useLog = false);
 
   ///@}
 

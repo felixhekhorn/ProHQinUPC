@@ -16,6 +16,11 @@ IntegrationKernel::IntegrationKernel(cuint nlf, cdbl m2)
 IntegrationKernel::~IntegrationKernel() {
   if (0 != this->pdf) delete this->pdf;
   if (0 != this->aS) delete this->aS;
+  // delete all histograms
+  for (histMapT::const_iterator it = this->histMap.cbegin();
+       it != this->histMap.cend(); ++it) {
+    delete (it->second);
+  }
 }
 
 cdbl IntegrationKernel::getElectricCharge(cint PDGId) const {
@@ -84,6 +89,8 @@ cdbl IntegrationKernel::getLO() const {
 void IntegrationKernel::operator()(const double x[], const int k[],
                                    const double& weight, const double aux[],
                                    double f[]) {
+  this->vegasWeight = &weight;
+  dbl res = 0.;
   // LO variables are always there
   this->setZ(x[0]);
   this->setTheta1(x[1]);
@@ -92,12 +99,54 @@ void IntegrationKernel::operator()(const double x[], const int k[],
     PhasespacePoint p(this->m2, this->Sh);
     p.setupLO(this->z, this->Theta1);
     cdbl sigma_LO = this->getLO();
-    f[0] += sigma_LO;
+    this->fillHistograms(p, sigma_LO);
+    res += sigma_LO;
+  }
+  f[0] = res;
+}
+
+void IntegrationKernel::scaleHistograms(cdbl s) const {
+  for (histMapT::const_iterator it = this->histMap.cbegin();
+       it != this->histMap.cend(); ++it)
+    it->second->scale(s);
+}
+
+void IntegrationKernel::fillHistograms(const PhasespacePoint& p, cdbl i) const {
+  // something active?
+  if (this->histMap.empty()) return;
+  if (0 == this->vegasWeight) return;
+  cdbl value = i * (*this->vegasWeight);
+  if (!std::isfinite(value) || 0. == value) return;
+  // iterate
+  for (histMapT::const_iterator it = this->histMap.cbegin();
+       it != this->histMap.cend(); ++it) {
+    dbl var = dblNaN;
+    switch (it->first) {
+      case histT::HAQRapidity:
+        var = p.getP2().rapidity();
+        break;
+      case histT::HAQTransverseMomentum:
+        var = p.getP2().pt();
+        break;
+      case histT::HAQTransverseMomentumScaling: {
+        cdbl ptmax = sqrt(p.getSh() / 4. - m2);
+        var = p.getP2().pt() / ptmax;
+      } break;
+      case histT::HAQFeynmanX: {
+        cdbl plmax = sqrt(p.getSh() / 4. - m2);
+        var = p.getP2().pz() / plmax;
+      } break;
+      default:
+        continue;
+    }
+    it->second->accumulate(var, value);
   }
 }
 
-void IntegrationKernel::Dvegas_init() const {}
+void IntegrationKernel::Dvegas_init() const { this->scaleHistograms(0.); }
 
-void IntegrationKernel::Dvegas_final(cuint iterations) const {}
+void IntegrationKernel::Dvegas_final(cuint iterations) const {
+  this->scaleHistograms(1. / cdbl(iterations));
+}
 
 }  // namespace ProHQinUPC

@@ -5,7 +5,9 @@
 #include <dvegas/dvegas.h>
 
 #include "./Flags.hpp"
+#include "./PhasespacePoint.h"
 #include "./config.h"
+#include "./histT.hpp"
 
 namespace ProHQinUPC {
 
@@ -31,11 +33,6 @@ class IntegrationKernel : public HepSource::Integrand {
   dbl s = dblNaN;
   ///@}
 
-  /**
-   * @brief integration weight determined by VEGAS
-   */
-  cdbl* vegasWeight = 0;
-
   /** @name integration variable transformations */
   ///@{
   /**
@@ -58,7 +55,7 @@ class IntegrationKernel : public HepSource::Integrand {
   ///@}
 
   /**
-   * @brief returns electric charge of particle
+   * @brief returns electric charge of a particle
    * @param PDGId PDG particle id
    * @return electric charge
    */
@@ -69,6 +66,26 @@ class IntegrationKernel : public HepSource::Integrand {
    * @return \f$\sigma_{LO}\f$
    */
   cdbl getLO() const;
+
+  /** @name historgram tools and methods */
+  ///@{
+  /** @brief integration weight determined by VEGAS */
+  cdbl* vegasWeight = 0;
+
+  /**
+   * @brief scales all avtive histograms
+   * @param s factor
+   */
+  void scaleHistograms(cdbl s) const;
+
+  /**
+   * @brief fills all avtive histograms
+   * These histograms may only depend on LO variables such as p1, p2, k1, q
+   * @param p current phase space point
+   * @param i integrand
+   */
+  void fillHistograms(const PhasespacePoint& p, cdbl i) const;
+  ///@}
 
  public:
   /**
@@ -124,6 +141,25 @@ class IntegrationKernel : public HepSource::Integrand {
 
   /** @brief running strong coupling as provided by LHAPDF */
   LHAPDF::AlphaS* aS = 0;
+
+  /** @brief pointer to map of histograms */
+  histMapT histMap;
+
+  /**
+   * @brief get maximum value of pt of heavy anti quark
+   * @return pt_Qbar^max
+   */
+  inline cdbl getHAQTransverseMomentumMax() const {
+    return sqrt(this->Sh / 4. - this->m2);
+  }
+
+  /**
+   * @brief get maximum value of rapidity of heavy anti quark
+   * @return y_Qbar^max
+   */
+  inline cdbl getHAQRapidityMax() const {
+    return atanh(sqrt(1. - 4. * this->m2 / this->Sh));
+  }
   ///@}
 
   /**
@@ -137,14 +173,10 @@ class IntegrationKernel : public HepSource::Integrand {
   void operator()(const double x[], const int k[], const double& weight,
                   const double aux[], double f[]);
 
-  /**
-   * @see HepSource::Integrand::Dvegas_init
-   */
+  /** @see HepSource::Integrand::Dvegas_init */
   void Dvegas_init() const;
 
-  /**
-   * @see HepSource::Integrand::Dvegas_final
-   */
+  /** @see HepSource::Integrand::Dvegas_final */
   void Dvegas_final(cuint iterations) const;
 };
 

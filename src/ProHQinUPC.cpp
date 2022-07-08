@@ -1,5 +1,6 @@
 #include "./ProHQinUPC.h"
 
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
 #include "./Integration.hpp"
@@ -29,8 +30,8 @@ ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
   this->setDeltax(deltax);
   this->setDeltay(deltay);
 
-  this->intConfLO.calls = 100;
-  this->intConfLO.MC_warmupCalls = 100;
+  this->intConfLO.calls = 30000;
+  this->intConfLO.MC_warmupCalls = 3000;
 }
 
 ProHQinUPC::~ProHQinUPC() {
@@ -95,9 +96,69 @@ void ProHQinUPC::setPdf(const str& name, const int member) const {
 cdbl ProHQinUPC::sigma() const {
   checkHadronicS(this->ker->Sh) checkAlphaEM(this->ker->alphaEM)
 
+      // check others explicitly
       if (0 == this->ker->pdf) throw domain_error("we need a PDF!");
   if (0 == this->ker->aS) throw domain_error("we need a alpha_s prescription!");
-  return integrate(this->ker, 2, this->intConfLO, this->intOut);
+  // prepare histograms
+  this->setupHistograms();
+  // compute
+  dbl res = dblNaN;
+  if (this->flags().useLeadingOrder)
+    res = integrate(this->ker, 2, this->intConfLO, this->intOut);
+
+  // write histograms
+  for (histMapT::const_iterator it = this->ker->histMap.cbegin();
+       it != this->ker->histMap.cend(); ++it)
+    it->second->writeToFile();
+  return res;
+}
+
+void ProHQinUPC::activateHistogram(const histT t, cuint size, const str& path,
+                                   cdbl min, cdbl max, const bool useLog) {
+  // assert existance of path
+  boost::filesystem::path fp(path);
+  boost::filesystem::path par = fp.parent_path();
+  if (par.string().size() > 0 && !boost::filesystem::exists(par))
+    throw std::ios::failure("histogram path \"" + par.string() +
+                            "\" does not exist!");
+  // create
+  gslpp::Histogram* h = new gslpp::Histogram(size);
+  if (!std::isnan(min) && !std::isnan(max)) {
+    if (useLog)
+      h->setRangesUniform(min, max);
+    else
+      h->setRangesLog10(min, max);
+  }
+
+  h->setPath(path);
+  // insert
+  this->ker->histMap.insert({t, h});
+}
+
+void ProHQinUPC::setupHistograms() const {
+  for (histMapT::const_iterator it = this->ker->histMap.cbegin();
+       it != this->ker->histMap.cend(); ++it) {
+    if (it->second->isInitialized()) continue;
+    switch (it->first) {
+      case histT::HAQRapidity: {
+        cdbl y0 = this->ker->getHAQRapidityMax();
+        it->second->setRangesUniform(-y0, y0);
+      } break;
+      case histT::HAQTransverseMomentum:
+        it->second->setRangesUniform(0.,
+                                     this->ker->getHAQTransverseMomentumMax());
+        break;
+      case histT::HAQTransverseMomentumScaling:
+        it->second->setRangesLog10(1.e-3, 1.);
+        break;
+      case histT::HAQFeynmanX:
+        it->second->setRangesUniform(-1., 1. + 1e-5);
+        break;
+
+      default:
+        continue;
+    }
+  }
 }
 
 }  // namespace ProHQinUPC

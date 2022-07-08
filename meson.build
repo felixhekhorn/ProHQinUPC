@@ -11,8 +11,7 @@ project('ProHQinUPC',
 cpp = meson.get_compiler('cpp')
 gsl_dep = cpp.find_library('gsl')
 #gslcblas_dep = cpp.find_library('gslcblas')
-boost_dep = dependency('boost')
-#boost_dep = dependency('boost', modules : ['system', 'filesystem', 'python3'])
+boost_dep = dependency('boost', modules : ['filesystem'])
 #yaml_dep = dependency('yaml-cpp')
 
 # Python
