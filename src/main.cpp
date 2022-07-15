@@ -50,9 +50,8 @@ int main(int argc, char **argv) {
     app.setHadronicS(10. * 4. * 2.25);
     // app.flags().useGluonicChannel = false;
     app.setPdf("NNPDF40_nnlo_as_01180", 0);
-    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20, "test-pt.dat");
-    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentumScaling, 20, "test-xt.dat");
-    app.activateHistogram(ProHQinUPC::histT::HAQRapidity, 20, "test-y.dat");
+    app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20, "data/HAQTransverseMomentum.dat");
+    app.activateHistogram(ProHQinUPC::histT::HAQRapidity, 20, "data/HAQRapidity.dat");
     cdbl sigma = app.sigma();
     cout << "sigma = " << sigma << endl;
   } catch (const std::exception &e) {

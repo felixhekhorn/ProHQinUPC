@@ -1,7 +1,5 @@
 builddir/
 
-test*.dat
-
 # Prerequisites
 *.d
 
