@@ -46,14 +46,15 @@ int main(int argc, char **argv) {
     cdbl omega = 1.;
     cdbl deltax = 1e-6;
     cdbl deltay = 7e-6;
-    ProHQinUPC::ProHQinUPC app(3, 2.25, xTilde, omega, deltax, deltay);
-    app.setHadronicS(100.);
+    ProHQinUPC::ProHQinUPC app(3, pow(1.5, 2.), xTilde, omega, deltax, deltay);
+    app.setHadronicS(10. * 4. * 2.25);
     // app.flags().useGluonicChannel = false;
     app.setPdf("NNPDF40_nnlo_as_01180", 0);
     app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentum, 20, "test-pt.dat");
     app.activateHistogram(ProHQinUPC::histT::HAQTransverseMomentumScaling, 20, "test-xt.dat");
     app.activateHistogram(ProHQinUPC::histT::HAQRapidity, 20, "test-y.dat");
-    cout << "sigma = " << app.sigma() << endl;
+    cdbl sigma = app.sigma();
+    cout << "sigma = " << sigma << endl;
   } catch (const std::exception &e) {
     cout << "Hoppala, an exception got raised ..." << endl << e.what() << endl;
   }

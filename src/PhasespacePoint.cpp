@@ -13,7 +13,7 @@ PhasespacePoint::PhasespacePoint(cdbl m2, cdbl Sh) : m2(m2), Sh(Sh) {}
 void PhasespacePoint::setupLO(cdbl z, cdbl Theta1) {
   this->order = 0;
   this->z = z;
-  this->s = this->Sh / z;
+  this->s = z * this->Sh;
   this->Theta1 = Theta1;
 
   // use virtual photon-parton c.m.s.
@@ -22,10 +22,10 @@ void PhasespacePoint::setupLO(cdbl z, cdbl Theta1) {
   cdbl sqrts = sqrt(s);
   cdbl beta = sqrt(1. - 4. * m2 / s);
   this->k1 = P4(sqrts / (2.) * UnitVector3::zAxis(), 0.);
-  this->q = P4(sqrts / (2.), -k1.momentum());
+  this->q = this->k1.reverseP();
   const UnitVector3 u(0., sin(this->Theta1), cos(this->Theta1));
-  this->p1 = P4(-.5 * sqrts * beta * u, sqrt(m2));
   this->p2 = P4(.5 * sqrts * beta * u, sqrt(m2));
+  this->p1 = this->p2.reverseP();
 
   // move to final frame
   this->applyLTsToFinalFrame();
@@ -34,7 +34,7 @@ void PhasespacePoint::setupLO(cdbl z, cdbl Theta1) {
 void PhasespacePoint::setupNLO(cdbl z, cdbl x, cdbl y, cdbl Theta1, cdbl Theta2) {
   this->order = 1;
   this->z = z;
-  this->s = this->Sh / z;
+  this->s = z * this->Sh;
   this->Theta1 = Theta1;
   this->x = x;
   this->y = y;
@@ -95,7 +95,7 @@ void PhasespacePoint::applyLTsToFinalFrame() {
   {  // boost to virtual photon-hadron c.m.s.
     using rk::Boost;
     using rk::P4;
-    const P4 ph = this->z * k1;
+    const P4 ph = 1. / this->z * k1;
     const P4 pCMS = ph + q;
     const Boost hCMS = pCMS.restBoost();
     this->p1.boost(hCMS);

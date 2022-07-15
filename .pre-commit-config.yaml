@@ -6,7 +6,11 @@ repos:
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
       - id: check-merge-conflict
+      - id: debug-statements
+      - id: fix-encoding-pragma
   - repo: https://gitlab.com/daverona/pre-commit/cpp
     rev: 0.8.0                 # use the most recent version
     hooks:
@@ -16,3 +20,27 @@ repos:
     - id: cpplint              # linter (or style-error checker) for Google C++ Style Guide
       args: ["--filter=-legal/copyright", "--linelength=120", "--exclude=src/ME/ROK.cpp", "--exclude=src/ME/RQED.cpp"]
   #   - id: cppcheck             # static analyzer for C/C++ code
+  - repo: https://github.com/psf/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+  - repo: https://github.com/asottile/blacken-docs
+    rev: v1.12.1
+    hooks:
+      - id: blacken-docs
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.37.1
+    hooks:
+      - id: pyupgrade
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.1.1
+    hooks:
+    -   id: pydocstyle
+        files: ^py/
+        additional_dependencies:
+          - toml

@@ -63,9 +63,9 @@ void IntegrationKernel::operator()(const double x[], const int k[], const double
   if (this->flags.useLeadingOrder && this->flags.useGluonicChannel) {
     PhasespacePoint p(this->m2, this->Sh);
     p.setupLO(this->z, this->Theta1);
-    cdbl sigma_LO = this->getLO();
-    this->fillHistograms(p, sigma_LO);
-    res += sigma_LO;
+    cdbl sigmaLO = this->getLO();
+    this->fillHistograms(p, sigmaLO);
+    res += sigmaLO;
   }
   f[0] = res;
 }

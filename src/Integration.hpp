@@ -25,8 +25,6 @@ namespace ProHQinUPC {
 template <class IntKerT>
 cdbl integrate(IntKerT *K, cuint dim, const IntegrationConfig &cfg, IntegrationOutput *out) {
   HepSource::Dvegas dv(dim, cfg.Dvegas_bins, 1, *K);
-  /** @todo activate correlation between z and x?
-   * -> Dvegas dv(dim,cfg.Dvegas_bins,2,{},0,1,F); */
   double res, err;
   // clear histograms
   K->Dvegas_init();
@@ -37,7 +35,7 @@ cdbl integrate(IntKerT *K, cuint dim, const IntegrationConfig &cfg, IntegrationO
     out->result = 0;
     out->error = 0;
     out->MC_chi2 = 0;
-    out->MC_chi2inter = 0;
+    out->MC_chi2iter = 0;
     return 0.;
   }
   HepSource::IntegrandEstimate e = dv.stats(0);
@@ -46,13 +44,13 @@ cdbl integrate(IntKerT *K, cuint dim, const IntegrationConfig &cfg, IntegrationO
   out->result = dblNaN;
   out->error = dblNaN;
   out->MC_chi2 = dblNaN;
-  out->MC_chi2inter = 0;
+  out->MC_chi2iter = 0;
   // run
   if (cfg.MC_adaptChi2) {  // adapt chi
     do {
       if (!std::isfinite(res)) return res;
       K->Dvegas_init();
-      HepSource::VEGAS(dv, cfg.calls, cfg.MC_iterations, 1, cfg.verbosity - 2);
+      HepSource::VEGAS(dv, cfg.calls, cfg.MC_iterations, 0 == guard ? 1 : 2, cfg.verbosity - 2);
       e = dv.stats(0);
       res = e.integral();
       err = e.standardDeviation();
@@ -74,7 +72,7 @@ cdbl integrate(IntKerT *K, cuint dim, const IntegrationConfig &cfg, IntegrationO
   out->result = res;
   out->error = err;
   out->MC_chi2 = e.chiSquarePerIteration();
-  out->MC_chi2inter = guard;
+  out->MC_chi2iter = guard;
   return res;
 }
 

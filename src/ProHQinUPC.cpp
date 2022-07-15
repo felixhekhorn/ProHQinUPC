@@ -30,6 +30,7 @@ ProHQinUPC::ProHQinUPC(cuint nlf, cdbl m2, cdbl xTilde, cdbl omega, cdbl deltax,
 
   this->intConfLO.calls = 30000;
   this->intConfLO.MC_warmupCalls = 3000;
+  this->intConfLO.Dvegas_bins = 50;
 }
 
 ProHQinUPC::~ProHQinUPC() {
