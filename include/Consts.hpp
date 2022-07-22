@@ -43,7 +43,7 @@ cdbl Kqph = 1. / (cdbl(NC));
  * @param PDGId PDG particle id
  * @return electric charge
  */
-cdbl electricCharge(cint PDGId) {
+inline cdbl electricCharge(cint PDGId) {
   // see
   // https://en.wikipedia.org/wiki/Mathematical_formulation_of_the_Standard_Model
   // + Leader + PDG
@@ -67,7 +67,7 @@ cdbl electricCharge(cint PDGId) {
     case -2:
     case -4:
     case -6:
-      return -2. / 3.;  // u,c,t
+      return -2. / 3.;  // ubar,cbar,tbar
     case 21:
       return 0.;  // g
     default:

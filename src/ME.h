@@ -10,6 +10,9 @@ namespace ME {
 
 // cast MMa as macro
 #define Power(x, y) pow(x, y)
+#define Cos(x) cos(x)
+#define Sin(x) sin(x)
+#define Sqrt(x) sqrt(x)
 
 // Mandelstam remapping
 #define DEF_s3 cdbl s3 = -s - t1 - tp - u1 - up;
@@ -37,6 +40,34 @@ cdbl BQED(cdbl m2, cdbl s, cdbl t1);
  * @param up Mandelstam up
  */
 cdbl ROK(cdbl m2, cdbl s, cdbl t1, cdbl u1, cdbl tp, cdbl up);
+
+/**
+ * @brief x-1,y->-1 counter term for NLO photon-glon matrix element
+ * @param m2 mass
+ * @param s center-of-mass energy
+ * @param t1 Mandelstam t1
+ */
+cdbl RCounterXYm(cdbl m2, cdbl s, cdbl t1);
+
+/**
+ * @brief y->-1 counter term for NLO photon-glon matrix element
+ * @param m2 mass
+ * @param s center-of-mass energy
+ * @param x soft fraction
+ * @param Theta1 first angle
+ * @param Theta2 second angle
+ */
+cdbl RCounterYm(cdbl m2, cdbl s, cdbl x, cdbl Theta1, cdbl Theta2);
+
+/**
+ * @brief x->1 counter term for NLO photon-glon matrix element
+ * @param m2 mass
+ * @param s center-of-mass energy
+ * @param y collinear fraction
+ * @param Theta1 first angle
+ * @param Theta2 second angle
+ */
+cdbl RCounterYm(cdbl m2, cdbl s, cdbl y, cdbl Theta1, cdbl Theta2);
 
 /**
  * @brief NLO photon-glon matrix element proportional 2*CF

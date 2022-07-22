@@ -18,6 +18,9 @@ sources += [
     'ME/A3.cpp',
     'ME/ROK.cpp',
     'ME/RQED.cpp',
+    'ME/RCounterYm.cpp',
+    'ME/RCounterX.cpp',
+    'ME/RCounterXYm.cpp'
 ]
 
 sources += [
